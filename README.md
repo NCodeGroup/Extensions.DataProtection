@@ -1,3 +1,6 @@
+[![ci](https://github.com/NCodeGroup/Extensions.DataProtection/actions/workflows/main.yml/badge.svg)](https://github.com/NCodeGroup/Extensions.DataProtection/actions)
+[![Nuget](https://img.shields.io/nuget/v/NCode.Extensions.DataProtection.svg)](https://www.nuget.org/packages/NCode.Extensions.DataProtection/)
+
 # NCode.Extensions.DataProtection
 
 A .NET library that provides extensions and utilities for ASP.NET Core Data Protection, including a type-safe factory pattern for creating `IDataProtector` instances and high-performance span-based protection operations.
