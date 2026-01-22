@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+
+  <PropertyGroup>
+    <Description>Extensions and utilities for ASP.NET Core Data Protection, including a type-safe factory pattern for creating IDataProtector instances with automatic purpose string derivation, and high-performance span-based protection operations using IBufferWriter.</Description>
+    <PackageTags>dataprotection;data-protection;cryptography;encryption;security;idataprotector;idataprotectionprovider;span;bufferwriter;factory-pattern;dependency-injection;aspnetcore</PackageTags>
+  </PropertyGroup>
+
+</Project>
