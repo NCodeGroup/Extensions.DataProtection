@@ -100,17 +100,7 @@ public static class DataProtectorExtensions
         else
 #endif
             {
-                // pin the plaintext bytes to prevent the GC from moving it around
-                // can't use ArrayPool with GCHandle because it doesn't guarantee to return an exact size
-                // and data protector doesn't support span (yet)
-                using var plaintextBytes = BufferFactory.CreatePinnedArray(plaintext.Length);
-
-                plaintext.CopyTo(plaintextBytes);
-                var protectedBytes = dataProtector.Protect(plaintextBytes);
-                var protectedLength = protectedBytes.Length;
-                var destinationSpan = destination.GetSpan(protectedLength);
-                protectedBytes.CopyTo(destinationSpan);
-                destination.Advance(protectedLength);
+                FailbackProtectSpan(dataProtector, plaintext, ref destination);
             }
         }
 
@@ -172,23 +162,59 @@ public static class DataProtectorExtensions
             else
 #endif
             {
-                var plaintextBytes = dataProtector.Unprotect(protectedData.ToArray());
-
-                // pin the plaintextBytes quickly in order to prevent the GC from moving it around
-                var plaintextHandle = GCHandle.Alloc(plaintextBytes, GCHandleType.Pinned);
-                try
-                {
-                    var plaintextLength = plaintextBytes.Length;
-                    var destinationSpan = destination.GetSpan(plaintextLength);
-                    plaintextBytes.CopyTo(destinationSpan);
-                    destination.Advance(plaintextLength);
-                }
-                finally
-                {
-                    CryptographicOperations.ZeroMemory(plaintextBytes);
-                    plaintextHandle.Free();
-                }
+                FailbackUnprotectSpan(dataProtector, protectedData, ref destination);
             }
+        }
+    }
+
+    internal static void FailbackProtectSpan<TWriter>(
+        IDataProtector dataProtector,
+        ReadOnlySpan<byte> plaintext,
+        ref TWriter destination
+    )
+        where TWriter : IBufferWriter<byte>
+#if NET9_0_OR_GREATER
+        , allows ref struct
+#endif
+    {
+        // pin the plaintext bytes to prevent the GC from moving it around
+        // can't use ArrayPool with GCHandle because it doesn't guarantee to return an exact size
+        // and data protector doesn't support span (yet)
+        using var plaintextBytes = BufferFactory.CreatePinnedArray(plaintext.Length);
+
+        plaintext.CopyTo(plaintextBytes);
+        var protectedBytes = dataProtector.Protect(plaintextBytes);
+        var protectedLength = protectedBytes.Length;
+        var destinationSpan = destination.GetSpan(protectedLength);
+        protectedBytes.CopyTo(destinationSpan);
+        destination.Advance(protectedLength);
+    }
+
+    internal static void FailbackUnprotectSpan<TWriter>(
+        IDataProtector dataProtector,
+        ReadOnlySpan<byte> protectedData,
+        ref TWriter destination
+    )
+        where TWriter : IBufferWriter<byte>
+#if NET9_0_OR_GREATER
+        , allows ref struct
+#endif
+    {
+        var plaintextBytes = dataProtector.Unprotect(protectedData.ToArray());
+
+        // pin the plaintextBytes quickly in order to prevent the GC from moving it around
+        var plaintextHandle = GCHandle.Alloc(plaintextBytes, GCHandleType.Pinned);
+        try
+        {
+            var plaintextLength = plaintextBytes.Length;
+            var destinationSpan = destination.GetSpan(plaintextLength);
+            plaintextBytes.CopyTo(destinationSpan);
+            destination.Advance(plaintextLength);
+        }
+        finally
+        {
+            CryptographicOperations.ZeroMemory(plaintextBytes);
+            plaintextHandle.Free();
         }
     }
 }

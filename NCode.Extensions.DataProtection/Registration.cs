@@ -38,6 +38,7 @@ namespace NCode.Extensions.DataProtection;
 /// </para>
 /// </remarks>
 [PublicAPI]
+[ExcludeFromCodeCoverage]
 public static class Registration
 {
     /// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
