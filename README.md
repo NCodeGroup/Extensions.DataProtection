@@ -81,6 +81,25 @@ protector.UnprotectSpan(writer.WrittenSpan, ref unprotectWriter);
 - .NET 8.0, .NET 9.0, or .NET 10.0+
 - Microsoft.AspNetCore.DataProtection
 
+## Known Limitations
+
+### UnprotectSpan Memory Pinning (Pre-.NET 11.0)
+
+> ⚠️ **Security Notice**: On frameworks prior to .NET 11.0, `UnprotectSpan` cannot guarantee that sensitive plaintext data won't be copied by the garbage collector before memory pinning is applied.
+
+When using `UnprotectSpan` on .NET 8.0, 9.0, or 10.0, the implementation:
+
+1. Calls `IDataProtector.Unprotect()` which returns a `byte[]` containing the plaintext
+2. Immediately attempts to pin the array using `GCHandle.Alloc(..., GCHandleType.Pinned)`
+3. Copies the data to the destination buffer
+4. Clears the memory using `CryptographicOperations.ZeroMemory()`
+
+**The limitation**: Between steps 1 and 2, there is a brief window where the GC could relocate the plaintext array, potentially leaving copies of sensitive data in memory that cannot be cleared.
+
+While the likelihood of this occurring is extremely low in practice, applications with strict security requirements should be aware of this limitation. The `ZeroMemory` call remains the primary security measure for clearing sensitive data.
+
+**On .NET 11.0+**, the native `ISpanDataProtector` interface is used when available, which eliminates this limitation entirely.
+
 ## License
 
 Licensed under the Apache License, Version 2.0. See [LICENSE.txt](LICENSE.txt) for details.
