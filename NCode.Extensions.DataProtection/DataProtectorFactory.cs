@@ -57,7 +57,7 @@ public interface IDataProtectorFactory<T>
 /// used to create <see cref="IDataProtector"/> instances.</param>
 /// <remarks>
 /// <para>
-/// This implementation uses <see cref="Type.FullName"/> (or <see cref="Type.Name"/> as fallback)
+/// This implementation uses <see cref="Type.FullName"/> (or <see cref="System.Reflection.MemberInfo.Name"/> as fallback)
 /// of <typeparamref name="T"/> as the purpose string, providing automatic cryptographic isolation
 /// based on type identity.
 /// </para>
