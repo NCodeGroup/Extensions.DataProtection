@@ -1,0 +1,19 @@
+#nullable enable
+NCode.Extensions.DataProtection.DataProtectorExtensions
+NCode.Extensions.DataProtection.DataProtectorExtensions.extension(Microsoft.AspNetCore.DataProtection.IDataProtector!)
+NCode.Extensions.DataProtection.DataProtectorExtensions.extension(Microsoft.AspNetCore.DataProtection.IDataProtector!).ProtectSpan<TWriter>(System.ReadOnlySpan<byte> plaintext, ref TWriter destination) -> void
+NCode.Extensions.DataProtection.DataProtectorExtensions.extension(Microsoft.AspNetCore.DataProtection.IDataProtector!).UnprotectSpan<TWriter>(System.ReadOnlySpan<byte> protectedData, ref TWriter destination) -> void
+NCode.Extensions.DataProtection.DataProtectorFactory<T>
+NCode.Extensions.DataProtection.DataProtectorFactory<T>.CreateDataProtector() -> Microsoft.AspNetCore.DataProtection.IDataProtector!
+NCode.Extensions.DataProtection.DataProtectorFactory<T>.DataProtectorFactory(Microsoft.AspNetCore.DataProtection.IDataProtectionProvider! dataProtectionProvider) -> void
+NCode.Extensions.DataProtection.IDataProtectorFactory<T>
+NCode.Extensions.DataProtection.IDataProtectorFactory<T>.CreateDataProtector() -> Microsoft.AspNetCore.DataProtection.IDataProtector!
+NCode.Extensions.DataProtection.Registration
+NCode.Extensions.DataProtection.Registration.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!)
+NCode.Extensions.DataProtection.Registration.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).AddDataProtectorFactory() -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+NCode.Extensions.DataProtection.Registration.extension(Microsoft.Extensions.DependencyInjection.IServiceCollection!).AddDataProtectorFactory<T, TImplementation>() -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static NCode.Extensions.DataProtection.DataProtectorExtensions.ProtectSpan<TWriter>(this Microsoft.AspNetCore.DataProtection.IDataProtector! dataProtector, System.ReadOnlySpan<byte> plaintext, ref TWriter destination) -> void
+static NCode.Extensions.DataProtection.DataProtectorExtensions.UnprotectSpan<TWriter>(this Microsoft.AspNetCore.DataProtection.IDataProtector! dataProtector, System.ReadOnlySpan<byte> protectedData, ref TWriter destination) -> void
+static NCode.Extensions.DataProtection.Registration.AddDataProtectorFactory(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+static NCode.Extensions.DataProtection.Registration.AddDataProtectorFactory<T, TImplementation>(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services) -> Microsoft.Extensions.DependencyInjection.IServiceCollection!
+virtual NCode.Extensions.DataProtection.DataProtectorFactory<T>.GetPurpose() -> string!
