@@ -7,14 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-
-- Public API tracking with PublicApiAnalyzers (`PublicAPI.Shipped.txt`, `PublicAPI.Unshipped.txt`).
-- `CONTRIBUTING.md`, `SECURITY.md`, architecture decision records in `docs/decisions/` and the `build/dod.ps1` Definition of Done.
-
 ### Changed
 
-- Updated the project to project-template v0.61.2: build settings, analyzers, CI workflow, Dependabot configuration and workflow files.
+- `AssemblyVersion` now moves only with the major version (`1.0.0.0` for every 1.x release), so a minor or patch upgrade is a drop-in replacement; `FileVersion` and `InformationalVersion` keep the exact version. Releases before this one used the full version, such as `1.0.1.0`.
+- The public API is unchanged and now tracked in `PublicAPI.Shipped.txt`; no library behavior changed.
 
 ## [1.0.1] - 2026-01-22
 

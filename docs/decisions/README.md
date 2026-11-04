@@ -60,5 +60,7 @@ override in `AGENTS.md`.
 
 ## Index
 
+This project has no decision records of its own yet; its records are numbered from 1000. The template's are in [project-template/](project-template/README.md).
+
 | ADR | Decision | Status |
 | --- | --- | --- |
