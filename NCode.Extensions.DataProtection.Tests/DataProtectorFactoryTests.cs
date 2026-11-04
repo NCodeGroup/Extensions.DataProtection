@@ -167,9 +167,9 @@ public class DataProtectorFactoryTests
 
     #region Test Helpers
 
-    private class NestedTestClass;
+    private sealed class NestedTestClass;
 
-    private class CustomPurposeFactory<T>(
+    private sealed class CustomPurposeFactory<T>(
         IDataProtectionProvider dataProtectionProvider,
         string customPurpose
     ) : DataProtectorFactory<T>(dataProtectionProvider)
